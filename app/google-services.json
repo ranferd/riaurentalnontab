@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "440812595130",
+    "firebase_url": "https://rental-c87a4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rental-c87a4",
+    "storage_bucket": "rental-c87a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440812595130:android:bfb651f031b3daca0e9f83",
+        "android_client_info": {
+          "package_name": "com.farid.riaurental"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440812595130-h0fuhdbf4u14c8db8qtfauqj7i251air.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVKKY9nfSFsPGgeoLZ7kLTdK8Hlh-fxLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440812595130-h0fuhdbf4u14c8db8qtfauqj7i251air.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
