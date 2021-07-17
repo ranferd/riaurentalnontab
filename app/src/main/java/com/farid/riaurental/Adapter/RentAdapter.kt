@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.farid.riaurental.DetailRentActivity
 import com.farid.riaurental.Model.RentModel
 import com.farid.riaurental.R
 import com.squareup.picasso.Picasso
@@ -64,8 +65,8 @@ class RentAdapter(val mCtx: Context, val layoutResId: Int, val list: List<RentMo
     }
 
     private fun showDetail(rent: RentModel) {
-//        val intent = Intent(context, DetailRentActivity::class.java)
-//        intent.putExtra("rentId", rent.id)
-//        context.startActivity(intent)
+        val intent = Intent(context, DetailRentActivity::class.java)
+        intent.putExtra("rentId", rent.id)
+        context.startActivity(intent)
     }
 }

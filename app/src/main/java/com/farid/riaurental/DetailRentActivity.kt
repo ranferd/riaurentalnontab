@@ -9,14 +9,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.rent_detail.*
+import kotlinx.android.synthetic.main.activity_rent_detail.*
 import java.text.DecimalFormat
 
 class DetailRentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.rent_detail)
-
+        setContentView(R.layout.activity_rent_detail)
 
         val ref = FirebaseDatabase.getInstance().getReference("rents")
         val rentId =  intent.getStringExtra("rentId")
@@ -24,21 +23,21 @@ class DetailRentActivity : AppCompatActivity() {
             ref.child(it).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if(snapshot.exists()){
-                        Log.e("FIREBASE", snapshot.getValue(RentModel::class.java).toString())
-                        val result = snapshot.getValue(RentModel::class.java)
+//                        Log.e("FIREBASE", snapshot.getValue(RentModel::class.java).toString())
+                        val rent = snapshot.getValue(RentModel::class.java)
 
-                        if (result != null) {
-                            rentName.text = result.name
-                            rentAddress.text = result.address
+                        if (rent != null) {
+                            rentName.text = rent.name
+                            rentAddress.text = rent.address
 
                             val duration : String
-                            if (result.duration == "d") {
+                            if (rent.duration == "d") {
                                 duration = "/Day"
                             }
-                            else if(result.duration == "w") {
+                            else if(rent.duration == "w") {
                                 duration = "/Week"
                             }
-                            else if(result.duration == "m") {
+                            else if(rent.duration == "m") {
                                 duration = "/Month"
                             }
                             else {
@@ -46,13 +45,13 @@ class DetailRentActivity : AppCompatActivity() {
                             }
 
                             val dec = DecimalFormat("#,###")
-                            rentPrice.text = "Rp. "+ dec.format(result.price).toString() + duration
+                            rentPrice.text = "Rp. "+ dec.format(rent.price).toString() + duration
 
-                            if (result.pictures.isEmpty()) {
+                            if (rent.pictures.isEmpty()) {
                                 rentPicture.setImageResource(R.drawable.house_placeholder)
                             }
                             else{
-                                Picasso.get().load(result.pictures).into(rentPicture)
+                                Picasso.get().load(rent.pictures.first().toString()).into(rentPicture)
                             }
                         }
                     }
