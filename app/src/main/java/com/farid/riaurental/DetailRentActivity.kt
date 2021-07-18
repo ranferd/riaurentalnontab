@@ -29,6 +29,7 @@ class DetailRentActivity : AppCompatActivity() {
                         if (rent != null) {
                             rentName.text = rent.name
                             rentAddress.text = rent.address
+                            rentDescription.text = rent.detail
 
                             val duration : String
                             if (rent.duration == "d") {
@@ -43,9 +44,10 @@ class DetailRentActivity : AppCompatActivity() {
                             else {
                                 duration = "/Year"
                             }
+                            rentDuration.text = duration
 
                             val dec = DecimalFormat("#,###")
-                            rentPrice.text = "Rp. "+ dec.format(rent.price).toString() + duration
+                            rentPrice.text = "Rp. "+ dec.format(rent.price).toString()
 
                             if (rent.pictures.isEmpty()) {
                                 rentPicture.setImageResource(R.drawable.house_placeholder)

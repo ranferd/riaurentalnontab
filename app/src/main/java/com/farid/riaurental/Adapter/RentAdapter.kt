@@ -61,6 +61,10 @@ class RentAdapter(val mCtx: Context, val layoutResId: Int, val list: List<RentMo
             showDetail(rent)
         }
 
+        imageView.setOnClickListener {
+            showDetail(rent)
+        }
+
         return view
     }
 
