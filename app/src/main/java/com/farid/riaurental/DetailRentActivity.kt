@@ -1,53 +1,53 @@
 package com.farid.riaurental
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.farid.riaurental.Model.RentModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_rent_detail.*
 import java.text.DecimalFormat
 
 class DetailRentActivity : AppCompatActivity() {
+
+    private val db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rent_detail)
 
-        val ref = FirebaseDatabase.getInstance().getReference("rents")
         val rentId =  intent.getStringExtra("rentId")
+
         rentId?.let {
-            ref.child(it).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
-//                        Log.e("FIREBASE", snapshot.getValue(RentModel::class.java).toString())
-                        val rent = snapshot.getValue(RentModel::class.java)
+            db.collection("rents").document(rentId)
+                .addSnapshotListener { snapshot, _ ->
+                    if(snapshot != null){
+                        val rent = snapshot.toObject(RentModel::class.java)
 
                         if (rent != null) {
                             rentName.text = rent.name
                             rentAddress.text = rent.address
                             rentDescription.text = rent.detail
 
-                            val duration : String
-                            if (rent.duration == "d") {
-                                duration = "/Day"
+                            if (rent.type == 1) {
+                                rentType.text = rent.quantity.toString() + " Room left"
+                            } else {
+                                rentType.text = rent.quantity.toString() + " House left"
                             }
-                            else if(rent.duration == "w") {
-                                duration = "/Week"
-                            }
-                            else if(rent.duration == "m") {
-                                duration = "/Month"
-                            }
-                            else {
-                                duration = "/Year"
-                            }
-                            rentDuration.text = duration
 
-                            val dec = DecimalFormat("#,###")
-                            rentPrice.text = "Rp. "+ dec.format(rent.price).toString()
+                            rentDuration.text = if (rent.duration == "d") {
+                                "/Day"
+                            } else if(rent.duration == "w") {
+                                "/Week"
+                            } else if(rent.duration == "m") {
+                                "/Month"
+                            } else {
+                                "/Year"
+                            }
+
+                            rentPrice.text = "Rp. "+ DecimalFormat("#,###").format(rent.price).toString()
 
                             if (rent.pictures.isEmpty()) {
                                 rentPicture.setImageResource(R.drawable.house_placeholder)
@@ -55,13 +55,19 @@ class DetailRentActivity : AppCompatActivity() {
                             else{
                                 Picasso.get().load(rent.pictures.first().toString()).into(rentPicture)
                             }
+
+                            btnBook.setOnClickListener {
+                                showBooking(rent)
+                            }
                         }
                     }
                 }
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-            })
         }
+    }
+
+    private fun showBooking(rent: RentModel) {
+        val intent = Intent(this, BookingRentActivity::class.java)
+        intent.putExtra("rentId", rent.id)
+        this.startActivity(intent)
     }
 }

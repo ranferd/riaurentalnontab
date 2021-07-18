@@ -1,12 +1,12 @@
 package com.farid.riaurental.Model
 
 data class BookingModel(
-    val rentID: String = "",
-    val tenantID: String = "",
-    val ownerID: String = "",
-    val Date: String = "",
-    val RentDuration: String = "",
-    val Price: String = "",
-    val CreatedAt: String = "") {
-
-}
+    val rentId: String = "",
+    val tenantId: String = "",
+    val ownerId: String = "",
+    val rentDate: String = "",
+    val rentDuration: Int = 0,
+    val price: Int = 0,
+    val rentCode: String = "",
+    val createdAt: String = "",
+    val id: String = "")

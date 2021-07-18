@@ -12,13 +12,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BookingRentActivity"></activity>
         <activity android:name=".DetailRentActivity" />
         <activity android:name=".TenantHomeActivity" />
-        <activity android:name=".ForgotPasswordActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TenantLoginActivity" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".OwnerLoginActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TenantLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".OwnerLoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

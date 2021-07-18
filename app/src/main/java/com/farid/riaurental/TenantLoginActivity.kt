@@ -17,6 +17,12 @@ class TenantLoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tenant_login)
 
+        try {
+
+        } catch (e: Exception) {
+
+        }
+
         auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
             // Signed in, launch the tenant home activity

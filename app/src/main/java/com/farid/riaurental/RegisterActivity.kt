@@ -7,21 +7,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.farid.riaurental.Model.UserModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var ref: DatabaseReference
+    private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
         auth = FirebaseAuth.getInstance()
-        ref = FirebaseDatabase.getInstance().getReference("users")
 
         btnRegister.setOnClickListener {
             val name = inputName.text.toString()
@@ -33,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
             val genderId = inputGender.checkedRadioButtonId
             val gender = resources.getResourceEntryName(genderId)
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty() || phone.isEmpty() || address.isEmpty() || gender.isEmpty()) {
+            if (name.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty() || passwordConfirm.isNullOrEmpty() || phone.isNullOrEmpty() || address.isNullOrEmpty() || gender.isNullOrEmpty()) {
                 Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -76,12 +75,15 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun writeNewUser(Email: String, Name: String, Phone: String, Address: String, Gender: String) {
-        val user = UserModel(Email, Name, Phone, Address, Gender)
-        val userId = ref.push().key.toString()
+        val ref = db.collection("users").document()
 
-        ref.child(userId).setValue(user).addOnCompleteListener { task ->
-            Toast.makeText( this, "writeNewUser:onComplete:" + task.isSuccessful, Toast.LENGTH_SHORT).show()
-            Toast.makeText(this, "Success Save Firebase",Toast.LENGTH_SHORT).show()
-        }
+        val user = UserModel(Email, Name, Phone, Address, Gender, ref.id)
+        db.collection("users").document(ref.id).set(user)
+            .addOnSuccessListener { result ->
+                Toast.makeText(this, "Register Success",Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Register Failed",Toast.LENGTH_SHORT).show()
+            }
     }
 }

@@ -26,6 +26,8 @@ class RentAdapter(val mCtx: Context, val layoutResId: Int, val list: List<RentMo
         val rent = list[position]
 
         val textName = view.findViewById<TextView>(R.id.textName)
+        val textQuantity = view.findViewById<TextView>(R.id.textQuantity)
+        val textType = view.findViewById<TextView>(R.id.textType)
         val textAddress = view.findViewById<TextView>(R.id.textAddress)
         val textPrice = view.findViewById<TextView>(R.id.textPrice)
         val textDuration = view.findViewById<TextView>(R.id.textDuration)
@@ -33,27 +35,29 @@ class RentAdapter(val mCtx: Context, val layoutResId: Int, val list: List<RentMo
 
         textName.text = rent.name
         textAddress.text = rent.address
+        textQuantity.text = rent.quantity.toString()
+
+        if (rent.type == 1) {
+            textType.text = "Room left"
+        } else {
+            textType.text = "House left"
+        }
 
         if (rent.duration == "d") {
             textDuration.text = "/day"
-        }
-        else if(rent.duration == "w") {
+        } else if(rent.duration == "w") {
             textDuration.text = "/week"
-        }
-        else if(rent.duration == "m") {
+        } else if(rent.duration == "m") {
             textDuration.text = "/month"
-        }
-        else {
+        } else {
             textDuration.text = "/year"
         }
 
-        val dec = DecimalFormat("#,###")
-        textPrice.text = "Rp "+ dec.format(rent.price).toString()
+        textPrice.text = "Rp "+ DecimalFormat("#,###").format(rent.price).toString()
 
         if (rent.pictures.isEmpty()) {
             imageView.setImageResource(R.drawable.house_placeholder)
-        }
-        else{
+        } else{
             Picasso.get().load(rent.pictures.first().toString()).into(imageView)
         }
 
